@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,6 +30,10 @@ public class Product {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @Cascade({CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE})
+    private Store store;
+    private Category productCategory;
 
     @PrePersist
     public void setCreatedAt() {
