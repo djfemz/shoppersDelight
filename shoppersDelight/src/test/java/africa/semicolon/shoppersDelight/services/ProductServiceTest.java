@@ -27,25 +27,19 @@ public class ProductServiceTest {
         request.setPrice(BigDecimal.TEN);
         request.setDescription("yummy, yum, yum!");
         request.setQuantity(10);
-
         AddProductResponse response= productService.addProduct(request);
         log.info("product added :: {}", response);
         assertThat(response).isNotNull();
 
     }
-
-
     @Test
     @Sql(scripts = {"/scripts/insert.sql"})
     public void getProductTest(){
-        ProductResponse product = productService.getProductBy(200L);
-
+        ProductResponse product = productService.getProductBy(203L);
         log.info("found product--->{}", product);
-
         assertThat(product).isNotNull();
 
     }
-
     @Test
     @Sql(scripts = {"/scripts/insert.sql"})
     public void getProductsTest(){

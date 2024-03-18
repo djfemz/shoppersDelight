@@ -1,10 +1,10 @@
 package africa.semicolon.shoppersDelight.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -19,4 +19,6 @@ public class Customer {
     private String password;
     private String address;
     private String phoneNumber;
+    @OneToMany(cascade = CascadeType.ALL ,fetch =FetchType.EAGER)
+    private List<NotificationShoppers> notificationShoppers;
 }

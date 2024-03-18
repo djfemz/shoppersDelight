@@ -7,6 +7,7 @@ import africa.semicolon.shoppersDelight.dtos.response.CustomerRegistrationRespon
 import africa.semicolon.shoppersDelight.dtos.response.UpdateCustomerResponse;
 import africa.semicolon.shoppersDelight.exceptions.CustomerNotFoundException;
 import africa.semicolon.shoppersDelight.models.Customer;
+import africa.semicolon.shoppersDelight.models.NotificationShoppers;
 import africa.semicolon.shoppersDelight.repositories.CustomerRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +23,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Arrays.stream;
 
@@ -56,7 +58,12 @@ public class AppCustomerService implements CustomerService{
         customerRepository.save(customer);
         return new ApiResponse<>(buildUpdateCustomerResponse());
     }
-
+    @Override
+    public void addNotification(Long id, NotificationShoppers notificationShoppers) {
+        Optional<Customer> customer = customerRepository.findById(id);
+        customer.get().getNotificationShoppers().add(notificationShoppers);
+        customerRepository.save(customer.get());
+    }
     private static UpdateCustomerResponse buildUpdateCustomerResponse() {
         UpdateCustomerResponse response = new UpdateCustomerResponse();
         response.setMessage("Account updated successfully");
