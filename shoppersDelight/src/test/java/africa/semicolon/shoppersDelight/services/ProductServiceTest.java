@@ -28,7 +28,6 @@ public class ProductServiceTest {
         request.setPrice(BigDecimal.TEN);
         request.setDescription("yummy, yum, yum!");
         request.setQuantity(10);
-        AddProductResponse response= productService.addProduct(request);
         request.setCategory("GROCERIES");
         Store store = new Store();
         store.setEmail("email");

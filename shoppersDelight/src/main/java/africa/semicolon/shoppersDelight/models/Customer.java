@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -26,6 +23,6 @@ public class Customer {
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     private Cart cart;
     @OneToMany(fetch = FetchType.EAGER)
-    @Cascade({CascadeType.MERGE,CascadeType.PERSIST})
+    @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
     private List<NotificationShoppers> notificationShoppers;
 }
