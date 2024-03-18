@@ -1,6 +1,7 @@
 package africa.semicolon.shoppersDelight.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,12 +29,16 @@ public class Product {
     private BigDecimal price;
     private String description;
     private Integer quantity;
+    @JsonIgnore
     private LocalDateTime createdAt;
+    @JsonIgnore
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
-    @Cascade({CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE})
+    @ManyToOne
+    @Fetch(FetchMode.SELECT)
+    @Cascade({CascadeType.MERGE,CascadeType.DETACH})
     private Store store;
+    @Enumerated
     private Category productCategory;
 
     @PrePersist
