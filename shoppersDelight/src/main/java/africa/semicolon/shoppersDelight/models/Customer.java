@@ -23,6 +23,8 @@ public class Customer {
     private String password;
     private String address;
     private String phoneNumber;
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    private Cart cart;
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade({CascadeType.MERGE,CascadeType.PERSIST})
     private List<NotificationShoppers> notificationShoppers;

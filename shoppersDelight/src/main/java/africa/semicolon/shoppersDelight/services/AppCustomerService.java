@@ -6,6 +6,7 @@ import africa.semicolon.shoppersDelight.dtos.response.ApiResponse;
 import africa.semicolon.shoppersDelight.dtos.response.CustomerRegistrationResponse;
 import africa.semicolon.shoppersDelight.dtos.response.UpdateCustomerResponse;
 import africa.semicolon.shoppersDelight.exceptions.CustomerNotFoundException;
+import africa.semicolon.shoppersDelight.models.Cart;
 import africa.semicolon.shoppersDelight.models.Customer;
 import africa.semicolon.shoppersDelight.models.NotificationShoppers;
 import africa.semicolon.shoppersDelight.repositories.CustomerRepository;
@@ -32,6 +33,7 @@ import static java.util.Arrays.stream;
 @AllArgsConstructor
 public class AppCustomerService implements CustomerService{
     private final CustomerRepository customerRepository;
+    private final CartService cartService;
 
 
     @Override
@@ -39,9 +41,9 @@ public class AppCustomerService implements CustomerService{
         Customer customer = new Customer();
         customer.setEmail(request.getEmail());
         customer.setPassword(request.getPassword());
-
+        Cart cart = cartService.createCart();
+        customer.setCart(cart);
         Customer savedCustomer = customerRepository.save(customer);
-
         CustomerRegistrationResponse response = new CustomerRegistrationResponse();
         response.setId(savedCustomer.getId());
         return response;
