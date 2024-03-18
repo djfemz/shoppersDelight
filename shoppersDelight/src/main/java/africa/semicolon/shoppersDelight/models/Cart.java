@@ -14,8 +14,8 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private List<Product> listOfProduct = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    private List<Item> listOfItem = new ArrayList<>();
 
 
 }

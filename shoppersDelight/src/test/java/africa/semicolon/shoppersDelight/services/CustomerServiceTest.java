@@ -6,9 +6,13 @@ import africa.semicolon.shoppersDelight.dtos.response.ApiResponse;
 import africa.semicolon.shoppersDelight.dtos.response.CustomerRegistrationResponse;
 import africa.semicolon.shoppersDelight.dtos.response.UpdateCustomerResponse;
 import africa.semicolon.shoppersDelight.exceptions.CustomerNotFoundException;
+import africa.semicolon.shoppersDelight.models.Customer;
+import africa.semicolon.shoppersDelight.repositories.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -18,7 +22,8 @@ public class CustomerServiceTest {
 
     @Autowired
     private CustomerService customerService;
-
+    @Autowired
+    private CustomerRepository customerRepository;
     @Test
     public void registerTest(){
         CustomerRegistrationRequest request = new CustomerRegistrationRequest();
@@ -46,4 +51,17 @@ public class CustomerServiceTest {
         assertThat(response.getData().getMessage()).isNotNull();
 
     }
+@Test
+    public void testThatRegisteredCustomerHasACart(){
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest();
+        request.setEmail("Abby@gmail.com");
+        request.setPassword("password5");
+      CustomerRegistrationResponse response=  customerService.register(request);
+      assertNotNull(response);
+        Customer customer = customerRepository.findById(response.getId()).get();
+        assertNotNull(customer.getCart());
+
+
+}
+
 }

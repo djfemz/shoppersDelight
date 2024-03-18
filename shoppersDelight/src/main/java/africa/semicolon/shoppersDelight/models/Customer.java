@@ -1,8 +1,6 @@
 package africa.semicolon.shoppersDelight.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,4 +17,6 @@ public class Customer {
     private String password;
     private String address;
     private String phoneNumber;
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    private Cart cart;
 }
