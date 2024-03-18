@@ -2,7 +2,6 @@ package africa.semicolon.shoppersDelight.controllers;
 
 import africa.semicolon.shoppersDelight.dtos.request.CustomerRegistrationRequest;
 import africa.semicolon.shoppersDelight.dtos.request.UpdateCustomerRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
