@@ -17,7 +17,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE, CascadeType.REMOVE})
-    private List<Item> listOfItem = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
 
 
 }

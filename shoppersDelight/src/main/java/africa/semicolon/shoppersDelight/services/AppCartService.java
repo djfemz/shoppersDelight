@@ -10,6 +10,7 @@ import africa.semicolon.shoppersDelight.models.Cart;
 import africa.semicolon.shoppersDelight.models.Item;
 import africa.semicolon.shoppersDelight.repositories.CartRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,8 @@ import java.util.List;
 public class AppCartService implements CartService{
    private final CartRepository cartRepository;
    private final ItemService itemService;
+   private final ProductService productService;
+   private final ModelMapper mapper = new ModelMapper();
     @Override
     public Cart createCart() {
         Cart cart = new Cart();
@@ -29,11 +32,10 @@ public class AppCartService implements CartService{
     public AddToCartResponse addToCart(AddToCartRequest request) throws CartNotFoundException {
         Cart cart = findCartBy(request.getCartId());
         Item item = createItem(request);
-        itemService.save(item);
-        cart.getListOfItem().add(item);
+        cart.getItems().add(item);
         cartRepository.save(cart);
         AddToCartResponse response = new AddToCartResponse();
-        response.setResponse("Successfully item with  added to cart");
+        response.setResponse("Successfully added item to cart");
         response.setItemId(item.getId());
         return response;
     }
@@ -42,21 +44,22 @@ public class AppCartService implements CartService{
     public RemoveItemResponse removeItem(RemoveItemFromCartRequest request) throws CartNotFoundException, ItemNotFoundException {
         RemoveItemResponse removeItemResponse = new RemoveItemResponse();
         Cart cart = findCartBy(request.getCartId());
-        List<Item> items = cart.getListOfItem().stream()
+        List<Item> items = cart.getItems().stream()
                 .filter((item) -> !item.getId().equals(request.getItemId()))
                 .toList();
-        cart.setListOfItem(items);
+        cart.setItems(items);
         cartRepository.save(cart);
         itemService.removeItem(request.getItemId());
         removeItemResponse.setMessage("Item remove from cart");
         return removeItemResponse;
     }
 
-    private static Item createItem(AddToCartRequest request) {
+    private  Item createItem(AddToCartRequest request) {
         Item item = new Item();
-        item.setName(request.getProduct().getName());
-        item.setPrice(request.getProduct().getPrice());
-        item.setQuantity(request.getProduct().getQuantity());
+        var foundProduct = productService.getProductBy(request.getProductId());
+        item.setName(foundProduct.getName());
+        item.setPrice(foundProduct.getPrice());
+        item.setQuantity(foundProduct.getQuantity());
         return item;
     }
 

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 public class ProductResponse {
+    private Long id;
     private String name;
     private BigDecimal price;
     private String description;
