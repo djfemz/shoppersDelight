@@ -20,10 +20,9 @@ public class AppNotificationService implements  NotificationService{
     private CustomerService customerService;
     @Override
     public NotificationResponse send(CustomerNotificationRequest customerNotificationRequest) {
-        NotificationResponse notificationResponse = new NotificationResponse();
         NotificationShoppers notificationShoppers = new NotificationShoppers();
-        notificationShoppers.setId(customerNotificationRequest.getId());
         notificationShoppers.setMessage(customerNotificationRequest.getMessage());
+        NotificationResponse notificationResponse = new NotificationResponse();
         notificationResponse.setMessage(notificationShoppers.getMessage());
         notificationRepository.save(notificationShoppers);
         customerService.addNotification(customerNotificationRequest.getId(),notificationShoppers);

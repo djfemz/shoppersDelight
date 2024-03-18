@@ -3,6 +3,10 @@ package africa.semicolon.shoppersDelight.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -19,6 +23,7 @@ public class Customer {
     private String password;
     private String address;
     private String phoneNumber;
-    @OneToMany(cascade = CascadeType.ALL ,fetch =FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
+    @Cascade({CascadeType.MERGE,CascadeType.PERSIST})
     private List<NotificationShoppers> notificationShoppers;
 }

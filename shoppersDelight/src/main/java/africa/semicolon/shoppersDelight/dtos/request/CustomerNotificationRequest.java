@@ -10,5 +10,5 @@ public class CustomerNotificationRequest {
 
     private Long id;
     private String message;
-    private Customer customer;
+
 }
