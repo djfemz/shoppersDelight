@@ -5,6 +5,7 @@ import africa.semicolon.shoppersDelight.dtos.request.RemoveItemFromCartRequest;
 import africa.semicolon.shoppersDelight.dtos.response.AddToCartResponse;
 import africa.semicolon.shoppersDelight.dtos.response.RemoveItemResponse;
 import africa.semicolon.shoppersDelight.exceptions.CartNotFoundException;
+import africa.semicolon.shoppersDelight.exceptions.ItemNotFoundException;
 import africa.semicolon.shoppersDelight.models.Cart;
 import africa.semicolon.shoppersDelight.models.Item;
 import africa.semicolon.shoppersDelight.models.Product;
@@ -83,7 +84,7 @@ public void testThatCanAddTwoItemsToCart() throws CartNotFoundException {
     assertNotNull(response);
     }
 @Test
-    public void testThatCanRemoveProductFromCart() throws CartNotFoundException {
+    public void testThatCanRemoveProductFromCart() throws CartNotFoundException, ItemNotFoundException {
     AddToCartRequest addToCartRequest = new AddToCartRequest();
     Cart cart = cartService.createCart();
     Product product = new Product();
@@ -98,6 +99,7 @@ public void testThatCanAddTwoItemsToCart() throws CartNotFoundException {
     request.setCartId(cart.getId());
     request.setItemId(response.getItemId());
     RemoveItemResponse removeItemResponse = cartService.removeItem(request);
+    assertNotNull(removeItemResponse);
 
 }
 }

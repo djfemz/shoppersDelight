@@ -5,6 +5,7 @@ import africa.semicolon.shoppersDelight.dtos.request.RemoveItemFromCartRequest;
 import africa.semicolon.shoppersDelight.dtos.response.AddToCartResponse;
 import africa.semicolon.shoppersDelight.dtos.response.RemoveItemResponse;
 import africa.semicolon.shoppersDelight.exceptions.CartNotFoundException;
+import africa.semicolon.shoppersDelight.exceptions.ItemNotFoundException;
 import africa.semicolon.shoppersDelight.models.Cart;
 
 public interface CartService {
@@ -12,7 +13,7 @@ public interface CartService {
 
     AddToCartResponse addToCart(AddToCartRequest request) throws CartNotFoundException;
 
-    RemoveItemResponse removeItem(RemoveItemFromCartRequest request) throws CartNotFoundException;
+    RemoveItemResponse removeItem(RemoveItemFromCartRequest request) throws CartNotFoundException, ItemNotFoundException;
 
 
 }

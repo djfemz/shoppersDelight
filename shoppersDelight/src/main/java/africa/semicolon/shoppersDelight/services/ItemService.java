@@ -10,6 +10,8 @@ public interface ItemService {
 
     Item findById(Long itemId) throws ItemNotFoundException;
 
+    Item removeItem(Long itemId) throws ItemNotFoundException;
+
 
 }
 
