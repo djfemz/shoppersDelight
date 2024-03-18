@@ -34,7 +34,7 @@ public class StoreServiceTest {
     void addProductTest() throws Exception {
         AddProductRequest request = new AddProductRequest();
         request.setName("name");
-        request.setId(4L);
+        request.setId(1L);
         request.setPrice(BigDecimal.ONE);
         request.setQuantity(1);
         request.setCategory("electronics");
@@ -46,8 +46,8 @@ public class StoreServiceTest {
     @Test
     void updateProduct() throws Exception {
         UpdateProductRequest request = new UpdateProductRequest();
-        request.setStoreId(4L);
-        request.setProductId(4L);
+        request.setStoreId(1L);
+        request.setProductId(1L);
         request.setProductCategory(GROCERIES);
         UpdateProductResponse response = storeService.updateProduct(request);
         assertNotNull(response);
