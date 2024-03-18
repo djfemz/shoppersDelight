@@ -47,7 +47,6 @@ public class AppCartService implements CartService{
                 .toList();
         cart.setListOfItem(items);
         cartRepository.save(cart);
-        System.out.println(findCartBy(request.getCartId()));
         itemService.removeItem(request.getItemId());
         removeItemResponse.setMessage("Item remove from cart");
         return removeItemResponse;
