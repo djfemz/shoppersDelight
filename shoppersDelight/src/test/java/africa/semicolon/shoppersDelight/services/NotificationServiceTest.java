@@ -1,6 +1,6 @@
 package africa.semicolon.shoppersDelight.services;
 
-import africa.semicolon.shoppersDelight.dtos.request.CustomerNotificationRequest;
+import africa.semicolon.shoppersDelight.dtos.request.SendNotificationRequest;
 import africa.semicolon.shoppersDelight.dtos.response.NotificationResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,15 @@ public class NotificationServiceTest {
 
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private CustomerService customerService;
     @Test
     public void notifyCustomerAfterUpdateTest()  {
 
-        CustomerNotificationRequest notificationRequest = new CustomerNotificationRequest();
-        notificationRequest.setId(1L);
+        SendNotificationRequest notificationRequest = new SendNotificationRequest();
+        notificationRequest.setCustomerId(1L);
         notificationRequest.setMessage("notify .......");
-        NotificationResponse notificationResponse = notificationService.send(notificationRequest);
+        NotificationResponse notificationResponse = notificationService.createNotification(notificationRequest);
         assertNotNull(notificationResponse);
     }
 

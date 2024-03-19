@@ -1,8 +1,8 @@
 package africa.semicolon.shoppersDelight.services;
 
-import africa.semicolon.shoppersDelight.dtos.request.CustomerNotificationRequest;
-import africa.semicolon.shoppersDelight.dtos.response.NotificationResponse;
+import africa.semicolon.shoppersDelight.dtos.request.SendNotificationRequest;
+import africa.semicolon.shoppersDelight.models.Notification;
 
 public interface NotificationService {
-    NotificationResponse send(CustomerNotificationRequest customerNotificationRequest);
+    Notification createNotification(SendNotificationRequest sendNotificationRequest);
 }

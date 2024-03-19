@@ -8,7 +8,7 @@ import africa.semicolon.shoppersDelight.dtos.response.UpdateCustomerResponse;
 import africa.semicolon.shoppersDelight.exceptions.CustomerNotFoundException;
 import africa.semicolon.shoppersDelight.models.Cart;
 import africa.semicolon.shoppersDelight.models.Customer;
-import africa.semicolon.shoppersDelight.models.NotificationShoppers;
+import africa.semicolon.shoppersDelight.models.Notification;
 import africa.semicolon.shoppersDelight.repositories.CustomerRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,10 +61,15 @@ public class AppCustomerService implements CustomerService{
         return new ApiResponse<>(buildUpdateCustomerResponse());
     }
     @Override
-    public void addNotification(Long id, NotificationShoppers notificationShoppers) {
-        Optional<Customer> customer = customerRepository.findById(id);
-        customer.get().getNotificationShoppers().add(notificationShoppers);
-        customerRepository.save(customer.get());
+    public String notify(Long customerId, Notification notification)  {
+        try {
+            Customer customer = findCustomerBy(customerId);
+            customer.getNotifications().add(notification);
+            customerRepository.save(customer);
+            return "user with id "+customerId+" notified successfully";
+        }catch (CustomerNotFoundException exception){
+            throw new RuntimeException(exception);
+        }
     }
     private static UpdateCustomerResponse buildUpdateCustomerResponse() {
         UpdateCustomerResponse response = new UpdateCustomerResponse();

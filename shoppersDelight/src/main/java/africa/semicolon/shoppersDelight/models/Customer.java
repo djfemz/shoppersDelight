@@ -7,7 +7,10 @@ import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 
+import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static org.hibernate.annotations.CascadeType.MERGE;
+import static org.hibernate.annotations.CascadeType.PERSIST;
 
 @Entity
 @Getter
@@ -20,9 +23,9 @@ public class Customer {
     private String password;
     private String address;
     private String phoneNumber;
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @OneToOne(fetch = EAGER, cascade = {CascadeType.MERGE})
     private Cart cart;
-    @OneToMany(fetch = FetchType.EAGER)
-    @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
-    private List<NotificationShoppers> notificationShoppers;
+    @OneToMany(fetch = EAGER)
+    @Cascade({PERSIST, MERGE})
+    private List<Notification> notifications;
 }
