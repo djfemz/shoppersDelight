@@ -1,9 +1,11 @@
 package africa.semicolon.shoppersDelight.services;
 
 import africa.semicolon.shoppersDelight.dtos.request.CustomerRegistrationRequest;
+import africa.semicolon.shoppersDelight.dtos.request.SendNotificationRequest;
 import africa.semicolon.shoppersDelight.dtos.request.UpdateCustomerRequest;
 import africa.semicolon.shoppersDelight.dtos.response.ApiResponse;
 import africa.semicolon.shoppersDelight.dtos.response.CustomerRegistrationResponse;
+import africa.semicolon.shoppersDelight.dtos.response.CustomerResponse;
 import africa.semicolon.shoppersDelight.dtos.response.UpdateCustomerResponse;
 import africa.semicolon.shoppersDelight.exceptions.CustomerNotFoundException;
 import africa.semicolon.shoppersDelight.models.Cart;
@@ -18,6 +20,7 @@ import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchOperation;
 import com.github.fge.jsonpatch.ReplaceOperation;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -34,6 +37,8 @@ import static java.util.Arrays.stream;
 public class AppCustomerService implements CustomerService{
     private final CustomerRepository customerRepository;
     private final CartService cartService;
+    private final ModelMapper mapper = new ModelMapper();
+    private final NotificationService notificationService;
 
 
     @Override
@@ -58,8 +63,15 @@ public class AppCustomerService implements CustomerService{
         buildPatchOperations(request, jsonPatchOperations);
         customer = applyPatch(jsonPatchOperations, customer);
         customerRepository.save(customer);
+        notify(id, notificationService.createNotification(new SendNotificationRequest(id, "account updated successfully")));
         return new ApiResponse<>(buildUpdateCustomerResponse());
     }
+
+    @Override
+    public CustomerResponse getCustomerBy(Long id) throws CustomerNotFoundException {
+            return mapper.map(findCustomerBy(id), CustomerResponse.class);
+    }
+
     @Override
     public String notify(Long customerId, Notification notification)  {
         try {

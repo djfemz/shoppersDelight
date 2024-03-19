@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 public class AppNotificationService implements  NotificationService{
     @Autowired
     private NotificationRepository notificationRepository;
-    @Autowired
-    private CustomerService customerService;
     @Override
     public Notification createNotification(SendNotificationRequest sendNotificationRequest) {
         Notification notification = new Notification();

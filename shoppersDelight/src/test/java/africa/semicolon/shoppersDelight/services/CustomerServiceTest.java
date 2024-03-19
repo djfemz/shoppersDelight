@@ -4,6 +4,7 @@ import africa.semicolon.shoppersDelight.dtos.request.CustomerRegistrationRequest
 import africa.semicolon.shoppersDelight.dtos.request.UpdateCustomerRequest;
 import africa.semicolon.shoppersDelight.dtos.response.ApiResponse;
 import africa.semicolon.shoppersDelight.dtos.response.CustomerRegistrationResponse;
+import africa.semicolon.shoppersDelight.dtos.response.CustomerResponse;
 import africa.semicolon.shoppersDelight.dtos.response.UpdateCustomerResponse;
 import africa.semicolon.shoppersDelight.exceptions.CustomerNotFoundException;
 import africa.semicolon.shoppersDelight.models.Customer;
@@ -11,6 +12,7 @@ import africa.semicolon.shoppersDelight.repositories.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Optional;
 
@@ -37,6 +39,15 @@ public class CustomerServiceTest {
         assertNotNull(response.getId());
     }
 
+
+    @Test
+    @Sql({"/scripts/insert.sql"})
+    public void getCustomerTest() throws CustomerNotFoundException {
+        Long id = 100L;
+        CustomerResponse customerResponse = customerService.getCustomerBy(id);
+        assertThat(customerResponse).isNotNull();
+    }
+
     @Test
     public void updateCustomerTest() throws CustomerNotFoundException {
         UpdateCustomerRequest request = new UpdateCustomerRequest();
@@ -51,7 +62,7 @@ public class CustomerServiceTest {
         assertThat(response.getData().getMessage()).isNotNull();
 
     }
-@Test
+    @Test
     public void testThatRegisteredCustomerHasACart(){
         CustomerRegistrationRequest request = new CustomerRegistrationRequest();
         request.setEmail("Abby@gmail.com");

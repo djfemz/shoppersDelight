@@ -10,7 +10,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Setter
 @Getter
 public class Notification {
-
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
