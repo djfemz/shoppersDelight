@@ -81,6 +81,12 @@ public void testThatCanAddTwoItemsToCart() throws CartNotFoundException {
     assertThat(cart.getItems().size()).isEqualTo(2);
     assertNotNull(response);
     }
+
+    @Test
+    @Sql(scripts = {"/scripts/insert.sql"})
+    public void getCartByIdTest() throws CartNotFoundException {
+        assertThat(cartService.getCartBy(200L)).isNotNull();
+    }
     @Test
     @Sql(scripts = {"/scripts/insert.sql"})
     public void testThatCanRemoveItemFromCart() throws CartNotFoundException, ItemNotFoundException {

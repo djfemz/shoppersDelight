@@ -36,7 +36,7 @@ import static java.util.Arrays.stream;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class AppProductService implements ProductService{
+public class ShoppersProductService implements ProductService{
     private final ProductRepository productRepository;
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int DEFAULT_PAGE_SIZE = 10;

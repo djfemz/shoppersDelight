@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class AppCartService implements CartService{
+public class ShoppersDelightCartService implements CartService{
    private final CartRepository cartRepository;
    private final ItemService itemService;
    private final ProductService productService;
@@ -52,6 +52,11 @@ public class AppCartService implements CartService{
         itemService.removeItem(request.getItemId());
         removeItemResponse.setMessage("Item remove from cart");
         return removeItemResponse;
+    }
+
+    @Override
+    public Cart getCartBy(long id) throws CartNotFoundException {
+        return findCartBy(id);
     }
 
     private  Item createItem(AddToCartRequest request) {

@@ -27,14 +27,13 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Arrays.stream;
 
 
 @Service
 @AllArgsConstructor
-public class AppCustomerService implements CustomerService{
+public class ShoppersDelightCustomerService implements CustomerService{
     private final CustomerRepository customerRepository;
     private final CartService cartService;
     private final ModelMapper mapper = new ModelMapper();
@@ -70,6 +69,12 @@ public class AppCustomerService implements CustomerService{
     @Override
     public CustomerResponse getCustomerBy(Long id) throws CustomerNotFoundException {
             return mapper.map(findCustomerBy(id), CustomerResponse.class);
+    }
+
+    @Override
+    public Customer getCustomerBy(Cart cart) throws CustomerNotFoundException {
+        return customerRepository.findByCart(cart)
+                .orElseThrow(()->new CustomerNotFoundException("customer not found"));
     }
 
     @Override

@@ -7,6 +7,8 @@ import africa.semicolon.shoppersDelight.dtos.response.CustomerRegistrationRespon
 import africa.semicolon.shoppersDelight.dtos.response.CustomerResponse;
 import africa.semicolon.shoppersDelight.dtos.response.UpdateCustomerResponse;
 import africa.semicolon.shoppersDelight.exceptions.CustomerNotFoundException;
+import africa.semicolon.shoppersDelight.models.Cart;
+import africa.semicolon.shoppersDelight.models.Customer;
 import africa.semicolon.shoppersDelight.models.Notification;
 
 public interface CustomerService extends Notifiable{
@@ -15,5 +17,6 @@ public interface CustomerService extends Notifiable{
     ApiResponse<UpdateCustomerResponse> updateCustomer(Long id, UpdateCustomerRequest request) throws CustomerNotFoundException;
 
     CustomerResponse getCustomerBy(Long id) throws CustomerNotFoundException;
+    Customer getCustomerBy(Cart cart) throws CustomerNotFoundException;
 
 }

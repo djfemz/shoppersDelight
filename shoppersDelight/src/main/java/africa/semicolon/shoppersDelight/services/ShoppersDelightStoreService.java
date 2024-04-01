@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class AppStoreService implements StoreService{
+public class ShoppersDelightStoreService implements StoreService{
     @Autowired
     private StoreRepository storeRepository;
     @Autowired

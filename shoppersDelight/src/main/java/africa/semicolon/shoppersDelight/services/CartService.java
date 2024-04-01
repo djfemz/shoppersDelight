@@ -16,6 +16,7 @@ public interface CartService {
     RemoveItemResponse removeItem(RemoveItemFromCartRequest request) throws CartNotFoundException, ItemNotFoundException;
 
 
+    Cart getCartBy(long id) throws CartNotFoundException;
 }
 
 

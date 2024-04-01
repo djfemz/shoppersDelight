@@ -19,5 +19,4 @@ public class Cart {
     @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<Item> items = new ArrayList<>();
 
-
 }
