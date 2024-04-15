@@ -21,8 +21,7 @@ public class PaymentServiceTest {
     @Test
     public void testProcessPayment(){
         ApiResponse<?> response = paymentService.makePaymentFor(2L);
-        log.info("response-->{}", response.getData());
+        log.info("res-->{}", response);
         assertThat(response).isNotNull();
-
     }
 }
