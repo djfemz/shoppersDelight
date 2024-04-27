@@ -12,6 +12,7 @@ import africa.semicolon.shoppersDelight.models.Cart;
 import africa.semicolon.shoppersDelight.models.Customer;
 import africa.semicolon.shoppersDelight.models.Notification;
 import africa.semicolon.shoppersDelight.repositories.CustomerRepository;
+import africa.semicolon.shoppersDelight.security.user.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.TextNode;
@@ -21,6 +22,12 @@ import com.github.fge.jsonpatch.JsonPatchOperation;
 import com.github.fge.jsonpatch.ReplaceOperation;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -33,24 +40,30 @@ import static java.util.Arrays.stream;
 
 @Service
 @AllArgsConstructor
-public class ShoppersDelightCustomerService implements CustomerService{
+public class ShoppersDelightCustomerService implements CustomerService, UserDetailsService {
     private final CustomerRepository customerRepository;
-    private final CartService cartService;
+    private CartService cartService;
     private final ModelMapper mapper = new ModelMapper();
     private final NotificationService notificationService;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
     public CustomerRegistrationResponse register(CustomerRegistrationRequest request) {
         Customer customer = new Customer();
         customer.setEmail(request.getEmail());
-        customer.setPassword(request.getPassword());
+        customer.setPassword(passwordEncoder.encode(request.getPassword()));
         Cart cart = cartService.createCart();
         customer.setCart(cart);
         Customer savedCustomer = customerRepository.save(customer);
         CustomerRegistrationResponse response = new CustomerRegistrationResponse();
         response.setId(savedCustomer.getId());
         return response;
+    }
+
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
     }
 
     @Override
@@ -145,6 +158,15 @@ public class ShoppersDelightCustomerService implements CustomerService{
         return customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException(
                         String.format("Customer with id %d not found", id)));
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Customer customer = customerRepository.findByEmail(username)
+                                              .orElseThrow(()->new CustomerNotFoundException(
+                                                      String.format("Customer with username %s not found", username)));
+        return new User(customer);
     }
 
 

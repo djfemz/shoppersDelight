@@ -24,4 +24,9 @@ public class PaymentServiceTest {
         log.info("res-->{}", response);
         assertThat(response).isNotNull();
     }
+
+    @Test
+    public void testVerifyPayment(){
+
+    }
 }

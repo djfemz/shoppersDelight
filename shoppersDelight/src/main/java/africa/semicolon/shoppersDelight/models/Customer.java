@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 
 import java.util.List;
+import java.util.Set;
 
 import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -28,4 +29,6 @@ public class Customer {
     @OneToMany(fetch = EAGER)
     @Cascade({PERSIST, MERGE})
     private List<Notification> notifications;
+    @ElementCollection(fetch = EAGER)
+    private Set<Role> roles;
 }

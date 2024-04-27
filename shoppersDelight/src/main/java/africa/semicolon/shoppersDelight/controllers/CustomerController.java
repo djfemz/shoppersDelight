@@ -18,12 +18,18 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
-    private final Logger logger = LoggerFactory.getLogger(CustomerController.class);
     @PostMapping
     public ResponseEntity<CustomerRegistrationResponse> registerCustomer(@RequestBody CustomerRegistrationRequest registrationRequest){
-        logger.trace("register customer called");
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(customerService.register(registrationRequest));
+    }
+
+
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCustomer(@PathVariable Long id){
+        return ResponseEntity.ok(customerService.getCustomerBy(id));
     }
 
     @PatchMapping("/{id}")

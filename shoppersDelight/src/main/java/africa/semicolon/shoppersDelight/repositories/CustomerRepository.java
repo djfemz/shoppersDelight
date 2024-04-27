@@ -11,4 +11,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("select c from Customer c where c.cart=:cart")
     Optional<Customer> findByCart(Cart cart);
 
+    Optional<Customer> findByEmail(String email);
+
 }
